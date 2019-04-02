@@ -1,0 +1,37 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+	<div class="sidebar-collapse">
+	<br><br>
+		<ul class="nav" id="side-menu">											
+			<li class="nav-header hidden">
+				<div class="dropdown profile-element">					
+					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+					<span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?= $_SESSION['user']->firstname.' '.$_SESSION['user']->lasttname ?></strong>
+					</span> <span class="text-muted text-xs block"><?= $_SESSION['user']->email?> </span> </span> </a>
+				</div>
+				<div class="logo-element">
+					
+				</div>
+			</li>			
+												
+			<? foreach($GLOBALS['menu']->getMenu() as $k=>$menu): ?>
+				<? if($menu['admin'] && $_SESSION['user']->type_id != 1) continue; ?>				
+				<li class="<?= ($k == $REQUEST->request)?'active':'';?>">
+					<? if( count($GLOBALS['menu']->getSubMenu($k))>0 ): ?>
+						<a href="#"><i class="<?= $menu['icon']; ?>"></i> <span class="nav-label"><?= $menu['title']; ?></span><span class="fa arrow"></span></a>												
+						<ul class="nav nav-second-level">
+							<? foreach( $menu['submenu'] as $subk => $submenu ): ?>
+								<? if($submenu['admin'] && $_SESSION['user']->type_id != 1) continue; ?>
+								<? if($submenu['biz'] && $_SESSION['user']->type_id > 2) continue; ?>
+								<li class="<?= ($k == $REQUEST->request)?'active':'';?>">
+									<a href="<?= $GLOBALS['system']['href_base'].$k.$subk; ?>" class=""><i class="<?= $submenu['icon']; ?>"></i><span><?= $submenu['title']; ?></span></a>
+								</li>
+							<? endforeach; ?>																
+						</ul>
+					<? else: ?>						
+						<a href="<?= $GLOBALS['system']['href_base'].$k; ?>" class=""><i class="<?= $menu['icon']; ?>"></i><span><?= $menu['title']; ?></span></a>
+					<? endif; ?>					
+				</li>
+			<? endforeach; ?>
+		</ul>
+	</div>
+</nav>

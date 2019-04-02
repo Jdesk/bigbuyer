@@ -1,0 +1,20 @@
+<form>
+	<input name="action" type="hidden" value="bulkCheckBalance">
+	<div class="form-group">
+		<label>Date Range</label>
+		<input type="text" class="daterangepicker form-control" name="daterange"/>		
+	</div>
+	
+	<div class="form-group">
+		<label>Error</label>
+		<select class="form-control" name="error">
+			<option value="">N/A</option>
+			<?php foreach($errorsOptions as $r):?>
+			<option value="<?=$r?>"><?=$r?></option>
+			<?php endforeach;?>
+		</select>		
+	</div>
+	
+	<div class="muted">
+		* Bulk check is rate limited to adhere to the Gift Card's provider limits. The matching cards will be scheduled to be checked and marked with <a href="#" class="btn btn-xs btn-warning"><i class="fa fa-refresh"></i></a></div>
+</form>

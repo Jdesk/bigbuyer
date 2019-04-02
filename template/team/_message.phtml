@@ -1,0 +1,29 @@
+<?php
+	if($_REQUEST['templateData']){
+		$id = (int)$_REQUEST['templateData']['id'];
+		$agent = new stdClass();
+		if($id) $agent = getAgent($id);
+	}
+?>
+<form class="validateSubmitForm innerAll half">																
+	<input type="hidden" name="action" value="sendLoginInfo"/>	
+	<input type="hidden" name="id" value="<?=$agent->id?>"/>		
+	<input type="hidden" name="first_name" value="<?=$agent->first_name?>"/>
+	<input type="hidden" name="last_name" value="<?=$agent->last_name?>"/>
+	<input type="hidden" name="crm_username" value="<?=$agent->username?>"/>
+	<input type="hidden" name="crm_password" value="<?=$agent->password?>"/>
+	
+
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="form-group">				
+				<label class="strong">The login information for this account is going to be sent to:</label>
+				<input type="text" class="form-control" name="email" value="<?=$agent->email?>"></textarea>										
+			</div>	
+			<div class="form-group">				
+				<label class="strong">Add a message: </label>
+				<textarea class="form-control" rows=6 name="message"></textarea>										
+			</div>									
+		</div>
+	</div>																		
+</form>	

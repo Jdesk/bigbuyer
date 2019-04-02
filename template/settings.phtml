@@ -1,0 +1,33 @@
+<div class="row">
+		<div class="ibox float-e-margins widget-system">							        
+			<form class="form-horizontal" role="form">
+				<input type="hidden" name="action" value="systemsave">                 
+				<div class="ibox-content">
+					<? foreach($system_settings as $k=>$v):?>
+						<? if($k=='active_pos'): ?>
+						<div class="clearfix form-group">                        
+							<label class="control-label col-lg-3 required">Active POS:</label>
+							<div class="col-lg-8 input-group">																							
+								<select name="<?= $k ?>" class="form-control">
+									<? foreach($GLOBALS['POS']['list'] as $i):?>
+									<option value="<?=$i?>" <?=($v==$i)?'selected':''?>><?=$i?></option>
+									<? endforeach; ?>
+								</select>								
+							</div>
+						</div>	
+						<? else: ?>
+						<div class="clearfix form-group">                        
+							<label class="control-label col-lg-3 required"><?= ucwords(str_replace("_", " ", $k)) ?>:</label>
+							<div class="col-lg-8 input-group">																
+								<input type="text" name="<?= $k ?>" class="form-control" value="<?= $v ?>">
+							</div>
+						</div>	
+						<? endif; ?>
+					<? endforeach; ?>
+					<div class="clearfix form-group text-center">						
+						<a href="#" class="btn btn-primary submit" data-loading-text="Saving..."><i class="fa fa-save"></i> Save Settings</a>
+					</div>		
+				</div>
+			</form>        
+		</div>		
+</div>

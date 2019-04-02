@@ -1,0 +1,52 @@
+<style>
+body{ background-color: #f3f3f4; }
+</style>
+<div class="loginColumns animated fadeInDown">
+	<div class="row">
+		<div class="col-md-12 login-container">
+			<div class="ibox-content">
+				<form class="m-t" role="form" method="post">
+					<input type="hidden" name="process" value="1" />
+					<? if($error): ?><div class="alert alert-danger"><?=$error?></div><? endif; ?>
+					<div class="form-group">
+						<input type="username" class="form-control" placeholder="Username" name="crm_username" required="">
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" placeholder="Password" name="crm_password" required="">
+					</div>
+					<button type="submit" class="btn btn-primary block full-width m-b">Login</button>					
+				</form>
+				<p class="m-t hidden">					
+					<a href="#" class="password-reset-a">Forgot Password?</a>
+				</p>
+			</div>
+		</div>
+		
+		<div class="col-md-12 reset-password-container" style="display: none">
+			<div class="ibox-content">
+				<h2 class="font-bold">Forgot password</h2>
+				<p>Enter your username and your password will be emailed to you.</p>
+				<div class="row">
+					<div class="col-lg-12">
+						<form class="m-t" role="form" method="post">
+							<input type="hidden" name="resetPassword" value="1" />
+							<div class="form-group"><input name="crm_username" type="text" class="form-control" placeholder="Username" required=""></div>
+							<button type="submit" class="btn btn-primary block full-width m-b">Send password</button>
+						</form>					
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+		
+	</div>
+	<hr/>
+	<div class="row">
+		<div class="col-md-6">
+			<?= $GLOBALS['site']['title'] ?>
+		</div>
+		<div class="col-md-6 text-right">
+			<small>&copy; <?=date('Y')?></small>
+		</div>
+	</div>
+</div>

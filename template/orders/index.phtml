@@ -1,0 +1,319 @@
+<div class="page-orders">	
+	<div class="row">			
+		<div class="col-sm-12 text-right">			
+			<a class="btn btn-success create-a"><i class="fa fa-plus"></i> Create Orders</a>					
+		</div>
+	</div>
+	<br>
+		
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="ibox-title"><h5>Filters</h5></div>
+			<div class="ibox-content m-b-sm border-bottom">
+				<form class="search-form">
+				<input type="hidden" name="action" value="loadOrders">
+				<div class="row">								
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Search Term</label>
+							<input type="text" class="form-control" name="filter[q]">						
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Create Date</label>
+							<input type="text" class="form-control daterangepicker" name="filter[timestamp]" value="<?=date("m/d/Y",strtotime('-30 days'))?> - <?=date("m/d/Y",strtotime('now'))?>">						
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Processed Date</label>
+							<input type="text" class="form-control daterangepicker" name="filter[processed_timestamp]">						
+						</div>
+					</div>
+					
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Account</label>
+							<select data-placeholder="All" class='chosen-select-width form-control' name='filter[account_id][]' multiple>															
+								<?php foreach(getAllAccounts() as $s): ?>
+								<option value="<?=$s->id?>"><?=$s->email?></option>
+								<?php endforeach;?>
+							</select>						
+						</div>
+					</div>	
+					
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Status</label>							
+							<select data-placeholder="All" class='chosen-select-width form-control' name='filter[status][]' multiple>															
+								<?php foreach(getAllStatus('status') as $s): ?>
+								<option value="<?=$s?>"><?=ucwords($s)?></option>
+								<?php endforeach;?>
+							</select>						
+						</div>
+					</div>	
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Frontend Status</label>							
+							<select data-placeholder="All" class='chosen-select-width form-control' name='filter[remote_status][]' multiple>															
+								<?php foreach(getAllStatus('remote_status') as $s): ?>
+								<option value="<?=$s?>"><?=ucwords($s)?></option>
+								<?php endforeach;?>
+							</select>						
+						</div>
+					</div>	
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Backend Status</label>							
+							<select data-placeholder="All" class='chosen-select-width form-control' name='filter[remote_status2][]' multiple>															
+								<?php foreach(getAllStatus('remote_status2') as $s): ?>
+								<option value="<?=$s?>"><?=ucwords($s)?></option>
+								<?php endforeach;?>
+							</select>						
+						</div>
+					</div>	
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Payment Status</label>							
+							<select data-placeholder="All" class='chosen-select-width form-control' name='filter[remote_status3][]' multiple>															
+								<?php foreach(getAllStatus('remote_status3') as $s): ?>
+								<option value="<?=$s?>"><?=ucwords($s)?></option>
+								<?php endforeach;?>
+							</select>						
+						</div>
+					</div>	
+					
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="control-label">&nbsp;</label>
+							<a href="#" class="btn btn-block btn-primary search-a"><i class="fa fa-search"></i> Search</a>
+						</div>
+					</div>				
+				</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+	
+	<div class="row summary-container">
+		     
+	</div>        
+	
+	<div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><h5>Orders</h5></div>
+                <div class="ibox-content">
+                    <table class="table orders-container">
+                        <thead>
+                            <tr>								
+								<th data-orderable="true">Created</th>
+								<th data-orderable="true">Status</th>
+								<th data-orderable="true">FrontEnd Status</th>
+								<th data-orderable="true">Backend Status</th>
+								<th data-orderable="true">Payment Status</th>
+								<th data-orderable="true">SKU</th>
+								<th data-orderable="true">Remote ID</th>
+								<th data-orderable="true">Email</th>								
+								<th data-orderable="true">QTY</th>
+								<th data-orderable="true">Unit $</th>
+								<th data-orderable="true">Total $</th>
+								<th data-orderable="true">GC Tier</th>
+								<th data-orderable="true">Cashback</th>
+								<th data-orderable="true">Tax ID</th>																																														
+                                <th nowrap data-orderable="false"></th>                                                                                                
+                            </tr>
+                        </thead>
+                        <tbody>	                        				
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+
+	<script id="template-summary" type="x-handlebars">
+		<div class="col-lg-3">
+			<div class="ibox ">
+				<div class="ibox-title"><h5>Total</h5></div>
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-sm-4"><h1 class="no-margins">{{formatNumber total}}</h1><small>Total</small></div>						
+					</div>					
+				</div>
+			</div>
+		</div>   
+		<div class="col-lg-3">
+			<div class="ibox ">
+				<div class="ibox-title"><h5>Pending</h5></div>
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-sm-4"><h1 class="no-margins">{{formatNumber pending}}</h1><small>Total</small></div>
+						<div class="col-sm-4"><h1 class="no-margins">{{formatNumber queued}}</h1><small>Queued</small></div>
+						<div class="col-sm-4"><h1 class="no-margins">{{formatNumber submitted}}</h1><small>Submitted</small></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="ibox ">
+				<div class="ibox-title"><h5>Success</h5></div>
+				<div class="ibox-content">					
+					<div class="row">
+						<div class="col-sm-4"><h1 class="no-margins">{{formatNumber success}}</h1><small>Total</small></div>
+						<div class="col-sm-4"><h1 class="no-margins">{{formatNumber shipped}}</h1><small>Shipped</small></div>
+						<div class="col-sm-4"><h1 class="no-margins">{{formatNumber delivered}}</h1><small>Delivered</small></div>
+					</div>					
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+			<div class="ibox ">
+				<div class="ibox-title"><h5>Error</h5></div>
+				<div class="ibox-content">					
+					<div class="row">
+						<div class="col-sm-4"><h1 class="no-margins">{{formatNumber error}}</h1><small>Total</small></div>						
+						<div class="col-sm-4"><h1 class="no-margins">{{formatNumber cancelled}}</h1><small>Cancelled</small></div>
+						<div class="col-sm-4"><h1 class="no-margins">{{formatNumber na}}</h1><small>Uknown Error</small></div>
+					</div>				
+				</div>
+			</div>
+		</div>
+	</script> 
+	<script id="template-order" type="x-handlebars">
+		<tr class="order-item" data-id="{{id}}">
+			<td><div class="label label-primary small"><i class="fa fa-clock-o"></i> {{timestamp}}</div></td>
+			<td>
+				<div>{{status}} {{#if error_msg}}<a href="#" class="text-danger preview-html-a" title="{{error_msg}}"><i class="fa fa-exclamation-triangle"></i></a>{{/if}}</div>
+				{{#if processed_timestamp}}<div class="label label-navy small"><i class="fa fa-clock-o"></i> {{formatTimeAgo processed_timestamp}}</div>{{/if}}
+			</td>
+			<td>
+				<div>{{remote_status}}</div>
+				{{#if last_status_update}}<div class="label label-navy small"><i class="fa fa-clock-o"></i> {{formatTimeAgo last_status_update}}</div>{{/if}}
+			</td>
+			<td>{{remote_status2}}</td>
+			<td>{{remote_status3}}</td>
+			<td>{{sku}}</td>
+			<td>{{remote_order_id}}</td>
+			<td>{{account.email}}</td>					
+			<td>{{qty}}</td>
+			<td>${{formatCurrency unit}}</td>
+			<td>${{formatCurrency total}}</td>
+			<td>
+				{{#xIf cards.length ">" "0"}}<a href="#" class="cards-a">{{card_tier}} ({{cards.length}})</a>
+				{{else}}{{card_tier}}
+				{{/xIf}}
+			</td>
+			<td>
+				{{#if cashback_url}}
+				<a href="{{cashback}}" target="_blank" class="btn btn-xs btn-Success">Yes</a>
+				{{else}}
+				<a href="#" class="btn btn-xs btn-danger">No</a>
+				{{/if}}
+			</td>
+			<td>{{tax_id}}</td>
+
+			<td nowrap class="text-right">
+				{{#xIf status "==" "Pending"}}<a href="#" class="btn btn-danger btn-sm remove-a"><i class="fa fa-times"></i></a>{{/xIf}}								
+				{{#xIf status "==" "Error"}}<a href="#" class="btn btn-danger btn-sm retry-a" title="Retry"><i class="fa fa-history"></i></a>{{/xIf}}
+				<a href="#" class="btn btn-success btn-sm details-a"><i class="fa fa-eye" title="View"></i></a>
+				<a href="#" class="btn btn-warning btn-sm status-a"><i class="fa fa-refresh" title="Update"></i></a>				
+			</td>
+		</tr>
+	</script>
+	
+	
+	<script id="template-create-review" type="x-handlebars">
+		<div class="row">
+		<div class="col-lg-12">			
+			<table class="table">				
+				<tr>
+					<td><button type="button" class="btn btn-info m-r-sm">{{ordersCount}}</button> Orders</td>
+					<td><button type="button" class="btn btn-info m-r-sm">${{formatCurrency total}}</button> Total Amount</td>					
+				</tr>
+				<tr>
+					<td><button type="button" class="btn btn-info m-r-sm">{{cards}}</button> Cards</td>					
+					<td><button type="button" class="btn btn-info m-r-sm">${{formatCurrency cardsBalance}}</button> Cards Balance</td>					
+				</tr>
+				<tr>
+					<td><button type="button" class="btn btn-info m-r-sm">{{accounts}}</button> Accounts</td>
+					<td><button type="button" class="btn btn-info m-r-sm">{{accountsPer}}</button> Orders/Account (estimate)</td>					
+				</tr>				
+			</table>
+
+			<table class="table dataTable">	
+				<thead>			
+					<tr><th>Items</th><th>QTY</th><th>Total $</th><th>Account</th><th>Giftcard Tier</th></tr>
+				</thead>
+				<tbody>
+				{{#each orders}}
+				<tr><td>{{itemsCount}}</td><td>{{qty}}</td><td>${{formatCurrency total}}</td><td>{{account.email}}</td><td>{{cardTier}}</td></tr>
+				{{/each}}
+				</tbody>									
+			</table>
+
+		</div>           
+		</div>   
+	</script>
+	
+	<script id="template-create-product-item" type="x-handlebars">		
+    <div class="row create-product-item" data-id="{{uid}}">		
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label>SKU</label>
+				<input type="text" name="sku[{{uid}}]" class="form-control" value="{{sku}}" required>
+			</div>        	
+		</div>
+
+		<div class="col-sm-2">
+			<div class="form-group">
+				<label>QTY</label>
+				<input type="text" name="qty[{{uid}}]" class="form-control" value="" required>
+			</div>        	
+		</div>
+		<div class="col-sm-2">
+			<div class="form-group">
+				<label>Unit Cost</label>
+				<input type="text" name="cost[{{uid}}]" class="form-control" value="" required>
+			</div>        	
+		</div>		
+		<div class="col-sm-2">
+			<div class="form-group">
+				<div>&nbsp;</div>
+				<a href="#" class="btn btn-block btn-danger create-product-remove-a"><i class="fa fa-times"></i></a>
+			</div>        	
+		</div>										
+	</div>					
+	</script>
+	
+	<script id="template-order-details" type="x-handlebars">				
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="row">
+				<div class="col-sm-12">
+					<? include mapTemplate('orders::_details_order'); ?>		
+				</div>
+				<div class="col-sm-12">
+					<? include mapTemplate('orders::_details_account'); ?>
+				</div>
+				<div class="col-sm-12">
+					<? include mapTemplate('orders::_details_cards'); ?>
+				</div>
+			</div>			
+		</div>
+		<div class="col-sm-8">
+			<div class="row">
+				<div class="col-sm-12">
+					<? include mapTemplate('orders::_details_data'); ?>		
+				</div>				
+			</div>	
+		</div>
+	</div>
+	
+	 </script>
+</div>

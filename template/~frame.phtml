@@ -1,0 +1,14 @@
+<div id="wrapper">	
+	<? includeTemplate('default::sidenav'); ?>
+	
+	<div id="page-wrapper" class="gray-bg dashbard-1">
+		<? includeTemplate('default::topbar'); ?>
+		
+		<? includeTemplate('default::breadcrumbs'); ?>
+		
+		<? include $pagedata['content']; ?>
+		
+
+		<? includeTemplate('default::footer'); ?>
+	</div>
+</div>

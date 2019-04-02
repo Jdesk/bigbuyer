@@ -1,0 +1,89 @@
+<?php
+	if($_REQUEST['templateData']){
+		$id = (int)$_REQUEST['templateData']['id'];		
+		$agent = new stdClass();
+		if($id){ 
+			$agent = getAgent($id);					
+		}
+		$settings = $agent->settings;
+	}			
+	
+	if(!$settings){
+		$settings = array();
+		foreach(Users::getSettingsFields() as $f) $settings[$f] = '';
+	}	
+?>
+<form class="validateSubmitForm innerAll half">																
+	<input type="hidden" name="action" value="save"/>		
+	<input type="hidden" name="id" value="<?=$agent->id?>"/>
+	<? if($agent->id):?>
+		<div class="pull-left text-danger small"><b>This user has to logout and log back in for the changes to take effect.</b></div>
+	<? endif; ?>
+	<div class="text-right small">* are required fields.</div>				
+
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label class="strong">Username *</label>
+				<input type="text" class="form-control span8" name="crm_username" value="<?=$agent->username?>" required>
+			</div>
+			<div class="form-group">
+				<label class="strong">First Name *</label>
+				<input type="text" class="form-control span8" name="first_name" value="<?=$agent->first_name?>" required>										
+			</div>			
+			<div class="form-group">
+				<label class="strong">Phone Number</label>
+				<input type="text" class="form-control span8 inputmask-phone" name="phone" value="<?=$agent->phone?>">										
+			</div>
+			<div class="form-group">
+				<label class="strong">Status</label>
+				<div>
+					<input name="status" value="1" type="checkbox" class="js-switch" <?=(!isset($agent) || $agent->status)?'checked':''?>>
+				</div>
+			</div>									
+		</div>
+		<div class="col-sm-6">			
+			<div class="form-group">
+				<label class="strong">Password *</label>
+				<input type="text" class="form-control span8" name="password" value="<?=$agent->password?>" required>
+			</div>	
+			<div class="form-group">
+				<label class="strong">Last Name *</label>
+				<input type="text" class="form-control span8" name="last_name" value="<?=$agent->last_name?>" required>
+			</div>				
+			<div class="form-group">
+				<label class="strong">Email</label>
+				<input type="text" class="form-control span8 email" name="email" value="<?=$agent->email?>">										
+			</div>			
+		</div>		
+	</div>		
+
+	<hr>
+	<h2>System Settings</h2>
+	<div class="row">
+		<? foreach($settings as $k=>$v): ?>
+		<? if($k=='active_pos'): ?>
+		<div class="col-sm-12">			
+			<div class="clearfix form-group">                        
+				<label class="control-label col-lg-3 required" style="margin-top: 7px;">Active POS:</label>
+				<div class="col-lg-8 input-group">																							
+					<select name="settings[<?=$k?>]" class="form-control">
+						<? foreach($GLOBALS['POS']['list'] as $i):?>
+							<option value="<?=$i?>" <?=($v==$i)?'selected':''?>><?=$i?></option>
+						<? endforeach; ?>
+					</select>								
+				</div>
+			</div>	
+			<hr>
+		</div>	
+		<? else: ?>
+		<div class="col-sm-6">			
+			<div class="form-group">
+				<label class="strong"><?= ucwords(str_replace("_", " ", $k)) ?></label>
+				<input type="text" class="form-control span8" name="settings[<?=$k?>]" value="<?=$v?>">
+			</div>
+		</div>
+		<? endif; ?>
+		<? endforeach;?>
+	</div>				
+</form>	

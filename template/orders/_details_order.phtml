@@ -1,0 +1,32 @@
+<h4>Order Settings</h4>	
+
+<table class="table">
+	<tr>
+		<td>SKU: </td>
+		<td>{{sku}}</td>
+	</tr>
+	<tr>
+		<td>QTY: </td>
+			<td>{{qty}}</td>
+	</tr>
+	<tr>
+		<td>Unit Cost: </td>
+		<td>${{formatCurrency unit}}</td>
+	</tr>    
+	<tr>
+		<td>Total Cost: </td>
+		<td>${{formatCurrency total}}</td>
+	</tr>    
+	<tr>
+		<td>Cashback URL: </td>
+		<td><a href="{{cashback_url}}" target="_blank">{{cashback_url}}</a></td>
+	</tr>    
+	<tr>
+		<td>Tax ID: </td>
+		<td>{{tax_id}}</td>
+	</tr>    	
+	<tr>
+		<td>Card Tier: </td>
+		<td>{{card_tier}}</td>
+	</tr>
+</table>

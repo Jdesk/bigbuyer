@@ -1,0 +1,24 @@
+<h4>Gift Cards</h4>	
+
+<table class="table">
+	<tr>
+		<th>Timestamp</th>
+		<th>Number</th>		
+		<th>Amount</th>		
+	</tr>
+	{{#each cards}}
+	<tr>
+		<td>
+			{{order_timestamp}}
+		</td>
+		<td>
+			{{number}}		
+		</td>
+		<td>
+			${{order_amount_formatted}}
+		</td>		
+	</tr>
+	{{/each}}
+</table>
+
+

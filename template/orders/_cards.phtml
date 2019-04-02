@@ -1,0 +1,42 @@
+<?php 
+	$id = $_REQUEST['templateData']['id'];
+	if($id){
+		$cards = getOrderCards($id);
+	}
+
+?>
+<?php if(!$id):?>
+<div class="alert alert-danger text-center">Order Not Found!</div>
+<?php elseif(!$cards):?>
+<div class="alert alert-warning text-center">No cards are associated with this order!</div>
+<?php else: ?>
+
+<table class="table">
+	<thead>
+		<tr>																
+			<th data-orderable="true">Number</th>			
+			<th data-orderable="true">Pin</th>
+			<th data-orderable="true">Order Charge</th>
+			<th data-orderable="true">Balance</th>												
+			<th data-orderable="true">Original Balance</th>			
+			<th data-orderable="true">Tier</th>			
+			<th data-orderable="true" class="text-center">Last Used</th>
+			<th data-orderable="true" class="text-center">Last Checked</th>						                                                                                               
+		</tr>
+	</thead>
+	<tbody>	
+	<?php foreach($cards as $c): ?>
+		<tr class="card-item" data-id="{{id}}">			
+			<td nowrap><?=$c->number?></td>
+			<td><?=$c->pin?></td>		
+			<td>$<?=number_format($c->order_amount,2)?></td>						
+			<td>$<?=number_format($c->balance,2)?></td>
+			<td>$<?=number_format($c->amount,2)?></td>			
+			<td nowrap><?=$c->tier?></td>			
+			<td align="center"><label class="label label-navy"><i class="fa fa-clock-o"></i> <?=$c->last_used?></label></td>
+			<td align="center"><label class="label label-navy"><i class="fa fa-clock-o"></i> <?=$c->last_checked?></label></td>								
+		</tr>
+	<?php endforeach;?>                        				
+	</tbody>
+</table>
+<?php endif;?>

@@ -1,0 +1,93 @@
+<!-- --------------------------- js Defaults ---------------------------  -->
+<script src="/~buying28/js/lib/jquery-2.1.1.js"></script>
+<script src="/~buying28/js/lib/jquery-ui/jquery-ui.min.js"></script>
+<script src="/~buying28/js/lib/bootstrap.min.js"></script>
+<script src="/~buying28/js/lib/class.js"></script>
+<script src="/~buying28/js/lib/handlebars.js"></script>
+<script src="/~buying28/js/inspinia.js"></script>
+<script src="/~buying28/js/index.js?<?=filemtime($GLOBALS['system']['js_path'].'/index.js')?>"></script>
+
+<!-- --------------------------- js Libs ---------------------------  -->
+<script src="/~buying28/js/lib/less.min.js"></script>											<!-- THIS NEEDS TO BE REMOVED ON PRODUCTION  -->
+<script src="/~buying28/js/lib/metisMenu/jquery.metisMenu.js"></script>
+<script src="/~buying28/js/lib/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/~buying28/js/lib/chosen/chosen.jquery.js"></script>
+<script src="/~buying28/js/lib/dataTables/jquery.dataTables.js"></script>
+<script src="/~buying28/js/lib/dataTables/dataTables.bootstrap.js"></script>
+
+<script src="/~buying28/js/lib/dataTables/dataTables.buttons.min.js"></script>
+<script src="/~buying28/js/lib/dataTables/jszip.min.js"></script>
+<script src="/~buying28/js/lib/dataTables/pdfmake.min.js"></script>
+<script src="/~buying28/js/lib/dataTables/vfs_fonts.js"></script>
+<script src="/~buying28/js/lib/zoom/easyzoom.js"></script>
+
+<script src="/~buying28/js/lib/summernote/summernote.min.js"></script>
+<script src="/~buying28/js/lib/moment.js"></script>
+<script src="/~buying28/js/lib/moment.timezone.js"></script>
+
+<!-- Flot -->
+<script src="/~buying28/js/lib/flot/jquery.flot.js"></script>
+<script src="/~buying28/js/lib/flot/jquery.flot.tooltip.min.js"></script>
+<script src="/~buying28/js/lib/flot/jquery.flot.spline.js"></script>
+<script src="/~buying28/js/lib/flot/jquery.flot.resize.js"></script>
+<script src="/~buying28/js/lib/flot/jquery.flot.pie.js"></script>
+<script src="/~buying28/js/lib/flot/jquery.flot.symbol.js"></script>
+<script src="/~buying28/js/lib/flot/jquery.flot.time.js"></script>
+  
+
+<!-- Peity -->
+<script src="/~buying28/js/lib/peity/jquery.peity.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="/~buying28/js/lib/pace/pace.min.js"></script>
+<script src="/~buying28/js/lib/dropzone/dropzone.js"></script>
+
+<!-- GITTER -->
+<script src="/~buying28/js/lib/gritter/jquery.gritter.min.js"></script>
+
+<!-- Sparkline -->
+<script src="/~buying28/js/lib/sparkline/jquery.sparkline.min.js"></script>
+
+<!-- ChartJS-->
+<script src="/~buying28/js/lib/chartJs/Chart.min.js"></script>
+
+<!-- Toastr -->
+<script src="/~buying28/js/lib/toastr/toastr.min.js"></script>
+
+<!-- Jquery Validate -->
+<script src="/~buying28/js/lib/validate/jquery.validate.min.js"></script>
+
+<!-- Steps -->
+<script src="/~buying28/js/lib/staps/jquery.steps.min.js"></script>
+
+<script src="/~buying28/js/lib/daterangepicker/daterangepicker.js"></script>
+<script src="/~buying28/js/lib/datepicker/bootstrap-datepicker.js"></script>
+
+<!-- Switchery -->
+<script src="/~buying28/js/lib/switchery/switchery.js"></script>
+<script src="/~buying28/js/lib/dropzone/dropzone.js"></script>
+
+<script src="//www.gstatic.com/charts/loader.js"></script>
+
+<script src="/~buying28/js/lib/jasny/jasny-bootstrap.min.js"></script>
+
+
+<script src="/~buying28/js/lib/sorttable.js"></script>
+
+<script src="/~buying28/js/lib/jquery.simpleWeather.min.js"></script>
+
+<script src="/~buying28/js/lib/seatingcharts/Lib/jquery.tuMap-min.js"></script>
+<script src="/~buying28/js/lib/seatingcharts/Lib/jquery.hammer.min.js"></script>
+<!--[if lt IE 9]><script src="/~buying28/js/lib/seatingcharts/Lib/excanvas-min.js"></script><![endif]-->
+
+<script src="/~buying28/js/class/modals.js"></script>
+
+<?php if($pagedata['js'] || $pagedata['js_default']) :?>
+<? foreach(array_merge($pagedata['js'],$pagedata['js_default']) as $js): ?>
+	<script src="/~buying28/<?=$js?>"></script>
+<? endforeach; ?>
+<?php endif; ?>
+
+
+</body>
+</html>

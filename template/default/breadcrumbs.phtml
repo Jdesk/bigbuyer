@@ -1,0 +1,19 @@
+<?php 
+$page = $GLOBALS['menu']->getCurrentPage();
+$crumbs = $GLOBALS['menu']->getCrumbs();
+
+?>
+<div class="row wrapper border-bottom white-bg page-heading m-b-md">
+	<div class="col-sm-4">
+		<h2><?=$page->title?></h2>
+		<? if(count($crumbs) > 1): ?>
+		<ol class="breadcrumb">
+			<? foreach($crumbs as $k=>$title): ?>
+			<li class="<?=($k=='#')?'active':''?>">
+				<a href="<?=$k?>"><?=$title?></a>
+			</li>
+			<? endforeach; ?>			
+		</ol>
+		<? endif; ?>
+	</div>
+</div>

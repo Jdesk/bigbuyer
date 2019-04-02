@@ -1,0 +1,198 @@
+﻿<?php
+	if($_REQUEST['templateData']){
+		$id = (int)$_REQUEST['templateData']['id'];
+		$card = new stdClass();
+		if($id) $card = getCard($id);
+		else if($_REQUEST['templateData']['card']){
+			$card = (object)$_REQUEST['templateData']['card'];
+		}
+	}
+	
+	
+	//t($card);
+?>
+<form class="validateSubmitForm innerAll half">																
+	<input type="hidden" name="action" value="saveCard"/>	
+	<input type="hidden" name="id" value="<?=$card->id?>"/>
+	<div class="text-right small">* are required fields.</div>				
+
+	<div class="row card-info-container">
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label class="strong">Number *</label>
+				<input type="text" class="form-control" name="number" value="<?=$card->number?>" required>										
+			</div>
+			
+		</div>
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label class="strong">PIN *</label>
+				<input type="text" class="form-control" name="pin" value="<?=$card->pin?>" required>										
+			</div>
+		</div>
+	</div>
+			
+	<div class="row">
+		<div class="hr-line-dashed"></div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="form-group select-input hidden">
+				<label class="strong">Store *</label>
+				<input type="text" class="form-control" name="store" value="bestbuy" required>
+			</div>	
+			
+			<div class="form-group">
+				<label class="strong">Purchased Amount *</label>
+				<div class="input-group">
+					<div class="input-group-addon">$</div>
+					<input type="number" class="form-control" name="amount" value="<?=$card->amount?>" required>
+				</div>					
+			</div>
+			<div class="form-group">
+				<label class="strong">Purchase Price</label>
+				<div class="input-group">
+					<div class="input-group-addon">$</div>
+					<input type="number" class="form-control" name="price" value="<?=$card->price?>">										
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="strong">Discount %</label>
+				<div class="input-group">					
+					<input type="number" class="form-control" name="discount" value="<?=$card->discount?>">										
+					<div class="input-group-addon">%</div>
+				</div>
+			</div>			
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="strong">Balance *</label>
+						<input type="number" class="form-control" name="balance" value="<?=$card->balance?>" required>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="strong">&nbsp;</label>
+						<a class="btn btn-primary check-a block"><i class="fa fa-refresh"></i> Check</a>
+					</div>					
+				</div>
+			</div>
+						
+		</div>
+		<div class="col-sm-6">
+			<div class="form-group select-input">
+				<label class="strong">Card Purchased At</label>
+				<select class="form-control">
+					<option value="">Select...</option>
+					<option value="new">New Store</option>
+					<option disabled>──────────</option>
+					<? foreach($stores['purchased'] as $s): ?>
+						<option value="<?=$s?>" <?=($s==$card->store_purchased)?'selected':''?>><?=$s?></option>
+					<? endforeach; ?>
+				</select>
+				<div class="row select-input-value hidden">
+					<div class="col-sm-10">
+						<input type="text" class="form-control" name="store_purchased" value="<?=$card->store_purchased?>">
+					</div>
+					<div class="col-sm-2">
+						<a href="#" class="btn btn-danger select-input-cancel"><i class="fa fa-times"></i></a>
+					</div>
+				</div>
+			</div>				
+			<div class="form-group hidden">				
+				<label class="strong">Date Purchased</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input type="text" class="form-control daterangepicker" data-type="single" name="purchased" value="<?=($card->id)?$card->purchased:date('m/d/Y')?>">		
+				</div>
+			</div>
+						
+			<div class="form-group select-input hidden">
+				<label class="strong">Credit Card Used to Purchase</label>
+				<select class="form-control" <?=($card->store_used && !in_array($card->store_used,$stores['used']))?'hidden':''?>>
+					<option value="">Select...</option>
+					<option value="new" <?=($card->store_used && !in_array($card->store_used,$stores['used']))?'selected':''?>>New Card</option>
+					<option disabled>──────────</option>
+					<? foreach($stores['used'] as $s): ?>
+						<option value="<?=$s?>" <?=($s==$card->store_used)?'selected':''?>><?=$s?></option>
+					<? endforeach; ?>
+				</select>
+				<div class="row select-input-value <?=(!$card->store_used || in_array($card->store_used,$stores['used']))?'hidden':''?>">
+					<div class="col-sm-10">
+						<input type="text" class="form-control" name="store_used" value="<?=$card->store_used?>">
+					</div>
+					<div class="col-sm-2">
+						<a href="#" class="btn btn-danger select-input-cancel"><i class="fa fa-times"></i></a>
+					</div>
+				</div>
+			</div>								
+			
+			<div class="form-group">
+				<label class="strong">Last Used</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input type="text" class="form-control daterangepicker" data-type="single" name="last_used" value="<?=$card->last_used?>">		
+				</div>				
+			</div>
+			
+			<div class="form-group">				
+				<label class="strong">Last Checked</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<input type="text" class="form-control daterangepicker" data-type="single" name="last_checked" value="<?=$card->last_checked?>">		
+				</div>
+			</div>
+			
+			<div class="form-group">				
+				<label class="strong">Status</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					<select class="form-control" name="status">
+						<?php foreach(array("active","archived","error") as $s):?>
+						<option value="<?=$s?>" <?=($s==$card->status)?'selected':''?>><?=ucwords($s)?></option>
+						<?php endforeach; ?>						
+					</select>		
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="hr-line-dashed"></div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="form-group">
+				<label class="strong">Notes</label>	
+				<textarea name="notes" class="form-control" rows=6><?=$card->notes?></textarea>
+			</div>
+		</div>
+	</div>
+	
+	<? if($card->id): ?>
+	<div class="modal-header modal-flush inner">
+		<h4 class="modal-title">Orders <a href="#" class="btn btn-xs btn-primary pull-right m-l-sm card-order-add-a"><i class="fa fa-plus"></i> Add Charge</a> <label class="pull-right"><span class="text-danger card-used-amount"></span> used out of <span class="text-success">$<?=number_format($card->amount,2)?></span></label></h4> 		
+	</div>
+	<div class="row">		
+		<div class="col-sm-12">
+			<table class="table dataTable"  data-bLengthChange="false" data-bFilter="false" data-pagingType="simple" data-binfo="false">
+				<thead>
+					<tr>						
+						<th>Remote Order Id</th>						
+						<th>Status</th>
+						<th>Date</th>
+						<th>Amount</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody class="card-orders-container" data-id="<?=$card->id?>">
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<? endif; ?>
+	
+</form>	

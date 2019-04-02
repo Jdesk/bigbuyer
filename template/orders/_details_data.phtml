@@ -1,0 +1,91 @@
+<h4>Order Details</h4>	
+
+<table class="table">
+	<tr>
+		<td>Timestamp: </td>
+		<td>{{checks.0.timestamp}} ({{formatTimeAgo checks.0.timestamp}})</td>
+	</tr>
+	<tr>
+		<td>Order ID: </td>
+		<td>{{checks.0.data.order.userOrderId}}</td>
+	</tr>
+	
+	<tr>
+		<td>Total: </td>
+		<td>
+			<table>
+				<tr><td style="padding-right: 5px">Products</td><td>${{formatCurrency checks.0.data.order.price.productTotal}}</td></tr>
+				<tr><td style="padding-right: 5px">Shipping</td><td>${{formatCurrency checks.0.data.order.price.shippingTotal}}</td></tr>
+				<tr style="border-bottom: 1px solid black"><td style="padding-right: 5px">Tax</td><td>${{formatCurrency checks.0.data.order.price.totalSalesTax}}</td></tr>
+				<tr><td style="padding-right: 5px">Total</td><td>${{formatCurrency checks.0.data.order.price.orderTotal}}</td></tr>
+			</table>
+		</td>		
+	</tr>
+	
+	<?/*
+	<tr>
+		<td>Product Total: </td>
+		<td>${{checks.0.data.order.price.productTotal}}</td>
+	</tr>
+	<tr>
+		<td>Tax: </td>
+		<td>${{checks.0.data.order.price.totalSalesTax}}</td>
+	</tr>	
+	<tr>
+		<td>Shipping: </td>
+		<td>${{checks.0.data.order.price.shippingTotal}}</td>
+	</tr>	
+	<tr>
+		<td>Order Total: </td>
+		<td>${{checks.0.data.order.price.orderTotal}}</td>
+	</tr>
+	*/?>	
+	<tr>
+		<td>Frontend Status: </td>
+		<td>{{checks.0.data.order.enterprise.customerStatus}}</td>
+	</tr>
+	<tr>
+		<td>Backend Status: </td>
+		<td>{{checks.0.data.order.enterprise.orderStatus}}</td>
+	</tr>
+	<tr>
+		<td>Payment Status: </td>
+		<td>{{checks.0.data.order.enterprise.paymentStatus}}</td>
+	</tr> 	 
+</table>
+
+<h4>Items</h4>	
+
+<table class="table">
+	<tr>
+		<th></th>
+		<th>Shipping Date</th>
+		<th>Tracking #</th>
+		<th>Price</th>
+		<th>Total</th>
+	</tr>
+	{{#each checks.0.data.order.items}}
+	<tr>
+		<td>
+			{{metadata.catalog.names.display}} 
+			<a href="https://www.bestbuy.com/site/searchpage.jsp?st={{sku}}" target="_blank"><i class="fa fa-link"></i></a>
+			<br>
+			<div class="small text-muted">SKU: {{sku}}</div>
+		</td>
+		<td>
+			{{fulfillment.shippingDate}}		
+		</td>
+		<td>
+			<a href="{{fulfillment.tracking.trackingUrl}}" target="_blank">{{fulfillment.tracking.carrierName}}: {{fulfillment.tracking.trackingNumber}}</a>
+		</td>
+		<td>
+			${{formatCurrency price.unitCurrentPrice}} <span class="small text-danger" style="text-decoration-line: line-through;">${{formatCurrency price.unitRegularPrice}}</span>	
+		</td>
+		<td>
+			${{formatCurrency price.itemTotal}}		
+		</td>
+	</tr>
+	{{/each}}
+</table>
+
+

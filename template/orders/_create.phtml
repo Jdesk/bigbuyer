@@ -1,0 +1,78 @@
+<?php 
+	$accounts = getAccountsSummary();
+	$ccs = getAccountsSummary(true);
+	$cards = getGiftcardsSummary();
+?>
+<form>			
+	<h1>Product Setup</h1>
+	<fieldset>		
+		<div class="row">		
+			
+			<div class="col-sm-12">		
+				<div class="form-group">
+					<label class="form-label">Cashback URL</label>
+					<input type="text" class="form-control" name="cb_url" value="">
+				</div>
+			</div>
+			<div class="col-sm-12">		
+				<div class="form-group">
+					<label class="form-label">Tax Exempt Code</label>
+					<input type="text" class="form-control" name="tax_id" value="">
+				</div>
+			</div>
+			<div class="col-sm-12">		
+				<div class="form-group">
+					<label class="form-label">Total # of orders</label>
+					<input type="number" class="form-control" name="orders_count" value="1">
+				</div>
+			</div>
+						
+			<div class="col-sm-12">
+				<div class="form-group">
+					<a href="#" class="btn btn-info btn-block create-product-add-a">Add Product</a>
+				</div>
+				<div class="create-products-container"></div>
+			</div>
+					
+		</div>
+	</fieldset>
+	
+		<h1>Account Setup</h1>
+	<fieldset>		
+		<div class="row">
+			<div class="col-sm-6">
+				<table class="table">
+					<tr><th>Tier</th><th># of Accounts</th></tr>		
+					<?php foreach($accounts as $r):?>				
+						<tr><td><input type="checkbox" name="account_tier[]" value="<?=$r->tier?>" id="account_tier<?=$r->tier?>"/> <label for="account_tier<?=$r->tier?>"><?=($r->tier)?$r->tier:'No Tier';?></label></td><td><?=$r->num?></td></tr>
+					<?php endforeach; ?>			
+				</table>
+			</div>
+			<div class="col-sm-6">
+				<table class="table">
+					<tr><th>Tier</th><th># of CC Accounts</th></tr>		
+					<?php foreach($ccs as $r):?>				
+						<tr><td><input type="checkbox" name="cc_tier[]" value="<?=$r->tier?>" id="cc_tier<?=$r->tier?>"/> <label for="cc_tier<?=$r->tier?>"><?=($r->tier)?$r->tier:'No Tier';?></label></td><td><?=$r->num?></td></tr>
+					<?php endforeach; ?>			
+				</table>
+			</div>
+		</div>				
+	</fieldset>
+	
+	<h1>Giftcard Setup</h1>
+	<fieldset>		
+		<table class="table">
+			<tr><th>Tier</th><th># of Cards</th><th>Total Balance</th></tr>		
+			<?php foreach($cards as $r):?>
+				<tr><td><input type="checkbox" name="giftcard_tier[]" value="<?=$r->tier?>" id="giftcard_tier<?=$r->tier?>"/> <label for="giftcard_tier<?=$r->tier?>"><?=($r->tier)?$r->tier:'No Tier';?></label></td><td><?=$r->num?></td><td><?=number_format($r->totalBalance,2)?></td></tr>
+			<?php endforeach; ?>			
+		</table>
+	</fieldset>	
+       
+	<h1>Review</h1>
+	<fieldset>		
+		<div class="create-review-container"></div>
+	</fieldset>	                         
+                                	
+		
+</form>

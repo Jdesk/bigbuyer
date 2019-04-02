@@ -1,0 +1,198 @@
+<div class="innerLR page-giftcards">	
+	<div class="row">	
+		<div class="col-sm-12 text-right">																
+			<div class="fileupload fileupload-new pull-right m-l-xs">																			
+				<div class="text-center actions">
+					<span href="#" class="btn btn-warning btn-file btn btn-primary"><i class="fa fa-fw fa-upload"></i> Import Gift Cards<span class="fileupload-new"></span><input type="file"></span>										
+				</div>
+				<a href="#" class="btn btn-warning btn-block uploading" style="display: none;"><i class="fa fa-fw fa-spinner fa-spin"></i> Uploading, Please wait...</a>
+			</div>
+						
+			<a class="btn btn-success create-a"><i class="fa fa-plus-circle"></i> Add New Gift Card</a>
+			<a href="#" class="btn btn-info bulk-balance-a"><i class="fa fa-refresh"></i> Bulk Balance Check</a>				
+		</div>
+		<div class="col-sm-12 text-right m-t-xs">
+			<a href="#" class="download-gc-a">Download Giftcard CSV Template</a>
+		</div>
+	</div>
+	<br>
+	
+	<div class="row">	
+		<div class="col-sm-12">
+			<div class="ibox float-e-margins">
+                <div class="ibox-title"><h5>Filters</h5></div>
+                <div class="ibox-content">
+                    
+                        <form class="search-form">                        	
+                        	<input type="hidden" name="action" value="loadCards">
+                        	
+                        	<div class="row">
+	                        	<div class="col-md-3">
+									<label>Number:</label>								
+									<input type="text" class="form-control" name="filter[number]" value="">
+	                            </div>	
+	                            
+	                            <div class="col-md-3">
+									<label>Purchased:</label>								
+									<input type="text" class="form-control daterangepicker" name="filter[purchased]" data-type="advanced" value="<?=$_REQUEST['purchased']?>">
+                            	</div>	                            
+	                            							
+								<div class="col-md-3 hidden">
+									<label>Purchased at:</label>								
+									<select data-placeholder="All Stores" class='chosen-select form-control' name='filter[stores_purchased][]' multiple tabindex="4">
+										<option value="">Select...</option>
+										<? foreach($stores['purchased'] as $s): ?>
+										<option value="<?=$s?>" <?=($_REQUEST['stores_purchased'] && in_array($s,$_REQUEST['stores_purchased']))?'selected':''?>><?=$s?></option>
+										<? endforeach; ?>
+	                                </select>
+	                            </div>							
+								<div class="col-md-3">
+									<label>Balance:</label>								
+									<select data-placeholder="All Cards" class='chosen-select form-control' name='filter[balance]' multiple tabindex="4">									
+										<option value="1" <?=($_REQUEST['balance']=="1")?'selected':''?>>With Balance</option>
+										<option value="-1" <?=($_REQUEST['balance']=="-1")?'selected':''?>>Zero Balance</option>
+	                                </select>
+	                            </div>
+	                            
+	                            <div class="col-sm-3">
+									<div class="form-group">
+										<label class="control-label">Tier</label>
+										<select class="form-control" name="filter[tier]">
+											<option value="">All</option>
+											<option value="Tier 1">Tier 1</option>
+											<option value="Tier 2">Tier 2</option>
+											<option value="Tier 3">Tier 3</option>
+											<option value="Tier 4">Tier 4</option>
+											<option value="Tier 4+">Tier 4+</option>
+										</select>						
+									</div>
+								</div>	
+							</div>
+							
+                            <div class="row">
+	                            <div class="col-md-3">
+									<label>Status:</label>								
+									<select data-placeholder="None" class='chosen-select form-control' name='filter[status][]' multiple tabindex="4">
+										<option value="">Select...</option>
+										<? foreach($statusOptions as $s): ?>
+										<option value="<?=$s?>"><?=ucwords($s)?></option>
+										<? endforeach; ?>
+                                	</select>
+                            	</div>
+	                            
+                            	<div class="col-md-3">
+									<label>Error:</label>								
+									<select data-placeholder="None" class='chosen-select form-control' name='filter[error][]' multiple tabindex="4">
+										<option value="">Select...</option>
+										<? foreach($errorsOptions as $s): ?>
+										<option value="<?=$s?>"><?=$s?></option>
+										<? endforeach; ?>
+                                	</select>
+                            	</div>
+														                     
+                            
+                            	<div class="col-md-3">
+									<label>Last Used:</label>								
+									<input type="text" class="form-control daterangepicker" name="filter[last_used]" data-type="advanced" value="<?=$_REQUEST['last_used']?>">
+                            	</div>
+							
+                            	<div class="col-md-3">
+									<label>&nbsp;</label>
+                                	<a class='btn-block btn btn-success search-a'><i class="fa fa-search"></i> Search</a>
+                            	</div>
+                            	
+                            </div>
+                        </form>                    
+                </div>
+            </div>
+		</div>		
+	</div>
+	
+	<div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><h5>Giftcards</h5></div>
+                <div class="ibox-content">
+                    <table class="table cards-container">
+                        <thead>
+                            <tr>																
+								<th data-orderable="true">Number</th>								
+								<th data-orderable="true">Pin</th>
+								<th data-orderable="true">Balance</th>																						
+								<th data-orderable="true">Purchased Amount</th>
+								<th data-orderable="true">Price</th>
+								<th data-orderable="true">Discount</th>
+								<th data-orderable="true">Tier</th>
+								<th data-orderable="true" class="text-center">Purchased</th>
+								<th data-orderable="true" class="text-center">Last Used</th>
+								<th data-orderable="true" class="text-center">Last Checked</th>								
+                                <th nowrap data-orderable="false"></th>                                                                                                
+                            </tr>
+                        </thead>
+                        <tbody>	                        				
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+							
+			
+							
+    <script id="template-card" type="x-handlebars">
+		<tr class="card-item" data-id="{{id}}">			
+			<td nowrap>
+				{{#xIf bg_balance_check "==" "1"}}
+				<a href="#" class="btn btn-warning btn-xs bulk-balance-cancel-a" title="Cancel scheduled balance check"><i class="fa fa-refresh"></i></a>
+				{{/xIf}}									
+				{{number}}									
+			</td>
+			<td>{{pin}}</td>			
+			<td>{{formatCurrency balance}}</td>
+			<td>{{formatCurrency amount}}</td>
+			<td>{{formatCurrency price}}</td>
+			<td>{{formatNumber discount}}%</td>
+			<td nowrap>{{tier}}</td>
+			<td align="center" data-order="{{timestamp}}"><label class="label label-navy">{{#if timestamp}}<i class="fa fa-clock-o"></i>  {{timestamp}}</label>{{/if}}</td>
+			<td align="center" data-order="{{last_used}}"><label class="label label-navy">{{#if last_used}}<i class="fa fa-clock-o"></i> {{last_used}}</label>{{/if}}</td>
+			<td align="center" data-order="{{last_checked}}">
+				{{#if last_check_error}}<a href="#" class="text-danger" title="{{last_check_error}}"><i class="fa fa-exclamation-triangle"></i></a>{{/if}}
+				{{#if last_checked}}<label class="label label-navy"><i class="fa fa-clock-o"></i> {{last_checked}}</label>{{/if}}				
+			</td>					
+			<td nowrap>								
+				<a href="#" title="Check Balance" data-id="{{id}}" class="balance-a btn btn-primary btn-xs hidden"><i class="fa fa-refresh"></i></a>
+				<a href="#" title="Edit" class="edit-a btn btn-success btn-xs"><i class="fa fa-pencil"></i></a>
+				<a href="#" title="Delete" class="remove-a btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+			</td>
+		</tr>
+	</script>
+															
+	<script id="template-empty" type="x-handlebars">
+		<tr>
+			<td>No accounts found!</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>                        			
+			<td></td>
+		</tr>
+	</script>
+    
+	
+	
+	<script id="template-card-order" type="text/x-handlebars-template">
+	{{#each orders}}	
+	<tr data-id="{{charge_id}}">
+		<td>{{remote_order_id}}</td>									
+		<td>{{remote_status}}</td>		
+		<td><small class="label label-primary">{{used_timestamp}}</label></td>
+		<td class="{{#xIf refunded "==" "1"}}refunded{{/xIf}}">${{used_amount_formatted}}</td>
+		<td>{{#if order_id}}{{else}}<a href="#" class="btn btn-xs btn-danger card-order-remove-a"><i class="fa fa-times"></i></a>{{/if}}</td>
+	</tr>
+	{{else}}
+	<tr><td colspan="5">No orders found.</td></tr>
+	{{/each}}
+	</script>
+
+</div>

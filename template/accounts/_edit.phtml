@@ -1,0 +1,185 @@
+<?php 
+	$id = $_REQUEST['templateData']['id'];	
+	$p = mysql_fetch_assoc(mysql_query("SELECT * FROM accounts WHERE id='$id'"));
+	
+	$cols = array();
+	$q = mysql_query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '{$GLOBALS['db_name']}' AND TABLE_NAME = 'accounts'");
+	while(list($r) = mysql_fetch_array($q)){
+		if(!in_array($r,array('id','timestamp')))$cols[] = $r;
+	}
+	
+?>
+<? if($id && !$p): ?>
+	<div class="alert alert-danger text-center">Account not found!</div>
+<? else: ?>
+<form>
+	<input type="hidden" name="action" value="saveAccount" />
+	<input type="hidden" name="id" value="<?=$p['id']?>" />
+	<div class="text-right small">* are required fields.</div>
+	
+	<div class="row">			
+		<div class="col-sm-12"><hr></div>		
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Email *</label>
+				<input type="text" class="form-control" name="email" value="<?=$p['email']?>" required>
+			</div>
+		</div>	
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Password</label>
+				<input type="text" class="form-control" name="password" value="<?=$p['password']?>">
+			</div>
+		</div>
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Tier</label>
+				<input type="text" class="form-control" name="tier" value="<?=$p['tier']?>">
+			</div>
+		</div>
+		
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Status</label>
+				<input type="checkbox" class="form-control js-switch" name="status" value="1" <?=($p['status'] || !$id)?'checked':''?>>
+			</div>
+		</div>
+		
+			
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-12"><h2>Shipping Address</h2></div>
+		<div class="col-sm-12"><hr></div>			
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Shipping Name *</label>
+				<input type="text" class="form-control" name="shipping_name" value="<?=$p['shipping_name']?>" required>
+			</div>
+		</div>	
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Shipping Address *</label>
+				<input type="text" class="form-control" name="shipping_address1" value="<?=$p['shipping_address1']?>" required>
+			</div>
+		</div>
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Shipping Address 2 *</label>
+				<input type="text" class="form-control" name="shipping_address2" value="<?=$p['shipping_address2']?>" required>
+			</div>
+		</div>
+		
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Shipping City *</label>
+				<input type="text" class="form-control" name="shipping_city" value="<?=$p['shipping_city']?>" required>
+			</div>
+		</div>	
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Shipping State *</label>
+				<select class="form-control" name="shipping_state" required>
+					<?php foreach($statesMaster as $k=>$v):?><option value="<?=$k?>" <?=($p['shipping_state']==$k)?'selected':''?>><?=$v?></option><?php endforeach;?>
+				</select>
+			</div>
+		</div>	
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Shipping Zip *</label>
+				<input type="text" class="form-control" name="shipping_zip" value="<?=$p['shipping_zip']?>" required>
+			</div>
+		</div>	
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Shipping Phone *</label>
+				<input type="text" class="form-control" name="shipping_phone" value="<?=$p['shipping_phone']?>" required>
+			</div>
+		</div>	
+
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-12"><h2>Billing Address</h2></div>
+		<div class="col-sm-12"><hr></div>			
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Billing Name</label>
+				<input type="text" class="form-control" name="billing_name" value="<?=$p['billing_name']?>">
+			</div>
+		</div>	
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Billing Address</label>
+				<input type="text" class="form-control" name="billing_address1" value="<?=$p['billing_address1']?>">
+			</div>
+		</div>
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Billing Address 2</label>
+				<input type="text" class="form-control" name="billing_address2" value="<?=$p['billing_address2']?>">
+			</div>
+		</div>
+		
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Billing City</label>
+				<input type="text" class="form-control" name="billing_city" value="<?=$p['billing_city']?>">
+			</div>
+		</div>	
+		<div class="col-sm-4">			
+			<div class="form-group">
+				<label class="form-label">Billing State</label>
+				<select class="form-control" name="billing_state">
+					<?php foreach($statesMaster as $k=>$v):?><option value="<?=$k?>" <?=($p['billing_state']==$k)?'selected':''?>><?=$v?></option><?php endforeach;?>
+				</select>								
+			</div>
+		</div>	
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Billing Zip</label>
+				<input type="text" class="form-control" name="billing_zip" value="<?=$p['billing_zip']?>">
+			</div>
+		</div>	
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Billing Phone</label>
+				<input type="text" class="form-control" name="billing_phone" value="<?=$p['billing_phone']?>">
+			</div>
+		</div>	
+
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-12"><h2>Credit Card Info</h2></div>
+		<div class="col-sm-12"><hr></div>			
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Number</label>
+				<input type="text" class="form-control" name="cc_num" value="<?=$p['cc_num']?>">
+			</div>
+		</div>	
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Expiration Month</label>
+				<input type="text" class="form-control" name="cc_exp_month" value="<?=$p['cc_exp_month']?>">
+			</div>
+		</div>
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Expiration Year</label>
+				<input type="text" class="form-control" name="cc_exp_year" value="<?=$p['cc_exp_year']?>">
+			</div>
+		</div>
+		
+		<div class="col-sm-4">		
+			<div class="form-group">
+				<label class="form-label">Code</label>
+				<input type="text" class="form-control" name="cc_cvv" value="<?=$p['cc_cvv']?>">
+			</div>
+		</div>	
+		
+	</div>
+		
+</form>
+<? endif; ?>

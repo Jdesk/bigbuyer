@@ -1,0 +1,42 @@
+<div class="innerLR page-agents">	
+	<div class="row">	
+		<div class="col-sm-12">			
+			<div class="ibox float-e-margins">
+                <div class="ibox-title">
+					<h5>Users</h5>
+					<a class="m-r-sm btn btn-success btn-xs pull-right create-a"><i class="fa fa-plus-circle"></i> Add New User</a>					
+				</div>				
+                <div class="ibox-content">
+					<table class="dataTable table">
+						<thead class="bg-gray">
+						<tr>
+							<th class="center" style="width: 1%">ID</th>
+							<th>Username</th>
+							<th>Name</th>													
+							<th class="center">Last Login</th>							
+							<th class="text-center"></th>
+						</tr>
+						</thead>
+						<tbody>
+						<? foreach($agents as $agent): ?>
+							<tr class="agent-item selectable <?=($agent->status>0)?'':'disabled'?>" data-id="<?=$agent->id?>">
+								<td class="center"><?=$agent->id?></td>
+								<td><?=$agent->username?></td>
+								<td><?=$agent->first_name?> <?=$agent->last_name?></td>								
+								<td class="center"><?=$agent->last_login?></td>								
+								<td class="text-right actions">
+									<div class="btn-group btn-group-sm">										
+										<a href="#" class="edit-a btn btn-xs btn-info m-r-sm"><i class="fa fa-pencil"></i></a>
+										<a href="#" class="remove-a btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
+									</div>
+								</td>
+							</tr>
+						<? endforeach; ?>						
+						</tbody>
+					</table>					
+				</div>
+
+			</div>
+		</div>	
+	</div>		
+</div>

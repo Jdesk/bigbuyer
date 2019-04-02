@@ -1,0 +1,135 @@
+<div class="page-accounts">	
+	<div class="row">			
+		<div class="col-sm-12 text-right">
+				
+			<div class="fileupload fileupload-new pull-right m-l-xs">																			
+				<div class="text-center actions">
+					<span href="#" class="btn btn-warning btn-file btn btn-primary"><i class="fa fa-fw fa-upload"></i> Import Accounts<span class="fileupload-new"></span><input type="file"></span>										
+				</div>
+				<a href="#" class="btn btn-warning btn-block uploading" style="display: none;"><i class="fa fa-fw fa-spinner fa-spin"></i> Uploading, Please wait...</a>
+			</div>
+			
+			<a class="btn btn-success create-a"><i class="fa fa-plus-circle"></i> Add Account</a>					
+		</div>
+		
+		<div class="col-sm-12 text-right m-t-xs">
+			<a href="#" class="download-accounts-a">Download Accounts CSV Template</a>
+		</div>
+	</div>
+	<br>
+		
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="ibox-title"><h5>Filters</h5></div>
+			<div class="ibox-content m-b-sm border-bottom">
+				<form class="search-form">
+				<input type="hidden" name="action" value="loadAccounts">
+				<div class="row">								
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Search Term</label>
+							<input type="text" class="form-control" name="filter[q]">						
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Status</label>
+							<input type="text" class="form-control" name="filter[status]">						
+						</div>
+					</div>	
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">Tier</label>
+							<select class="form-control" name="filter[tier]">
+								<option value="">All</option>
+								<option value="Tier 1">Tier 1</option>
+								<option value="Tier 2">Tier 2</option>
+								<option value="Tier 3">Tier 3</option>
+								<option value="Tier 4">Tier 4</option>
+								<option value="Tier 4+">Tier 4+</option>
+							</select>						
+						</div>
+					</div>	
+					<div class="col-sm-3">
+						<div class="form-group">
+							<label class="control-label">&nbsp;</label>
+							<a href="#" class="btn btn-block btn-primary search-a"><i class="fa fa-search"></i> Search</a>
+						</div>
+					</div>				
+				</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+	
+	
+	<div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title fill">
+                	<h5 class="fill">Accounts
+                		<div class="btn-group pull-right">
+            			<a href="#" class="btn btn-sm btn-info">Bulk Actions</a>
+            			<a href="#" data-toggle="dropdown" class="btn btn-sm btn-info dropdown-toggle" aria-expanded="false"><span class="caret"></span></a>
+            			<ul class="dropdown-menu pull-right">
+                			<li><a href="#" class="bulk-remove-a">Remove Accounts</a></li>                															
+            			</ul>
+        			</div>                	
+                		
+                	</h5>                	                	                 
+                </div>
+                <div class="ibox-content">
+                    <table class="table accounts-container">
+                        <thead>
+                            <tr>								
+                            	<th data-orderable="false"><input type="checkbox" class="select-all"/></th>
+								<th data-orderable="true">Created</th>
+								<th data-orderable="true">Email</th>
+								<th data-orderable="true">Shipping Address</th>
+								<th data-orderable="true">Status</th>
+								<th data-orderable="false">Tier</th>
+								<th data-orderable="false">Orders</th>
+								<th data-orderable="false">Cancellations</th>															
+                                <th nowrap data-orderable="false"></th>                                                                                                
+                            </tr>
+                        </thead>
+                        <tbody>	                        				
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<script id="template-account" type="x-handlebars">
+		<tr class="account-item" data-id="{{id}}">
+			<td><input type="checkbox" /></td>
+			<td><small>{{timestamp}}</small></td>
+			<td>{{email}}</td>
+			<td>{{shipping_address1}}, {{shipping_city}}, {{shipping_state}}, {{shipping_zip}}</td>
+			<td>
+				{{#xIf status "==" "1"}}Active{{else}}Inactive{{/xIf}}
+			</td>			
+			<td>{{tier}}</td>
+			<td>{{orders_count}}</td>
+			<td>{{canc_count}}</td>
+			<td nowrap>								
+				<a href="#" class="btn btn-success btn-xs edit-a"><i class="fa fa-pencil"></i></a>
+				<a href="#" class="btn btn-danger btn-xs remove-a"><i class="fa fa-times"></i></a>
+			</td>
+		</tr>
+	</script>
+	<script id="template-empty" type="x-handlebars">
+		<tr>
+			<td>No accounts found!</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>                        			
+			<td></td>
+		</tr>
+	</script>
+	 
+</div>
